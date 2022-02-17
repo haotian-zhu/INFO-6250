@@ -1,0 +1,46 @@
+const express = require('express');
+const app = express();
+const PORT = 3000;
+
+const uuidv4 = require('uuid').v4;
+const uid = uuidv4;
+const cookieParser = require('cookie-parser');
+
+app.use(express.static('./public'));
+app.use(cookieParser());
+
+app.get('/', (req, res) => {
+    const store = req.query.store;
+    if (store) {
+        res.cookie('saved', store);
+    }
+    const saw = req.cookies.saved;
+    //res.send(`<p>Request had cookie"saved": ${saw}</p> `);
+    console.log(`<p>Request had cookie"saved": ${saw}</p>`);
+    res.send(web.webPage(data));
+  });
+
+
+app.post('/data', express.urlencoded({ extended: false }), (req, res) => {
+    const un = req.body.unInput.trim();
+    console.log(un);
+    if (data.isValid(un)){
+        const sid = uuidv4();
+        res.cookie('sid', sid);
+        console.log("sid: " + sid)
+        console.log("res.cookie('sid', sid): " + res.cookie('sid', sid));
+        res.redirect('/');
+        //res.send('hello world')
+    }else {
+        
+        res.status(401).send(`401 Error <br/>`
+        +`you entered ${un} <br/>`
+        + `username can't be empty or dog. it must be numbers only or letters only <br/>`
+        + `Please go back to http://localhost:3000`);
+ 
+    }
+
+
+  });
+
+app.listen(PORT, () => console.log(`Listening on http://localhost:${PORT}`));
